@@ -9,6 +9,7 @@ stream_title = "Yayın Kapalı"
 category = "Belirtilmedi"
 viewer_count = 0
 vods_data_list = []
+streamer_avatar = ""
 
 try:
   req = urllib.request.Request(
@@ -17,6 +18,11 @@ try:
   )
   with urllib.request.urlopen(req) as response:
     data = json.loads(response.read().decode())
+
+    # Yayıncının Profil Resmi (Avatar) URL'si
+    user_info = data.get("user", {})
+    if user_info and isinstance(user_info, dict):
+      streamer_avatar = user_info.get("profile_pic", "")
 
     if data.get("livestream"):
       is_live = True
@@ -31,7 +37,6 @@ try:
         vod_title = vod.get("session_title", "Kayıtsız Yayın")
         vod_date = vod.get("created_at", "")[:10]
         vod_slug = vod.get("slug", "")
-        vod_id = vod.get("id", "")
         vod_thumbnail = ""
         if vod.get("thumbnail") and isinstance(vod["thumbnail"], dict):
           vod_thumbnail = vod["thumbnail"].get("url", "")
@@ -40,7 +45,6 @@ try:
             "title": vod_title,
             "date": vod_date,
             "slug": vod_slug,
-            "id": vod_id,
             "thumbnail": vod_thumbnail,
         })
 except Exception as e:
@@ -70,8 +74,6 @@ if vods_data_list:
         if thumb
         else '<div style="height:130px; background:#000;"></div>'
     )
-
-    # Doğrudan VOD yayınına giden özel Kick video URL'si
     video_url = f"https://kick.com/video/{slug}"
 
     vods_html += f"""
@@ -79,8 +81,8 @@ if vods_data_list:
             {img_tag}
             <div class="vod-info">
                 <h3>{title}</h3>
-                <p><strong>Tarih:</strong> {date}</p>
-                <a href="{video_url}" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> {date}</p>
+                <a href="{video_url}" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     """
@@ -94,7 +96,7 @@ html_content = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zentyy - Canlı Yayın & Video Arşivi</title>
+    <title>zentyy - Canlı Yayın & Arşiv</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0e0f; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
@@ -110,9 +112,11 @@ html_content = """<!DOCTYPE html>
         .player-box { width: 100%; height: 450px; border-radius: 8px; overflow: hidden; background: #000; }
         .player-box iframe { width: 100%; height: 100%; border: none; }
         
-        /* Sohbet Alanı */
+        /* Sohbet ve Profil Resmi Alanı */
         .chat-section { flex: 1; min-width: 280px; background: #141719; border: 1px solid #2a2e33; border-radius: 8px; display: flex; flex-direction: column; height: 520px; }
-        .chat-header { background: #1f2327; padding: 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header { background: #1f2327; padding: 10px 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; align-items: center; gap: 10px; }
+        .chat-header img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #53fc18; }
+        
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { background: #1f2327; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; border-left: 3px solid #53fc18; word-break: break-word; }
         .chat-msg .user { font-weight: bold; color: #53fc18; margin-bottom: 2px; font-size: 0.8rem; }
@@ -148,7 +152,7 @@ html_content = """<!DOCTYPE html>
     
     <div class="container">
         <div class="card">
-            <h2>Yayın Oynatıcısı & Sohbet __STATUS_BADGE__</h2>
+            <h2>Canlı Yayın Oynatıcısı __STATUS_BADGE__</h2>
             <div class="main-grid">
                 <div class="player-section">
                     <div class="player-box">
@@ -160,12 +164,13 @@ html_content = """<!DOCTYPE html>
 
                 <div class="chat-section">
                     <div class="chat-header">
-                        <span>💬 Zentyy Canlı Sohbet</span>
+                        __AVATAR_HTML__
+                        <span>Zentyy Canlı Sohbet</span>
                     </div>
                     <div class="chat-messages" id="chatMessages">
                         <div class="chat-msg">
                             <div class="user">Sistem Botu</div>
-                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin.
+                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin. Mesajların hafızada saklanır.
                         </div>
                     </div>
                     <div class="chat-input-container">
@@ -180,7 +185,7 @@ html_content = """<!DOCTYPE html>
         </div>
 
         <div class="card">
-            <h2>🎬 Geçmiş Yayın Arşivi (VODs)</h2>
+            <h2>🎬 Geçmiş Yayın Arşivi & Detaylı İstatistikler</h2>
             <div class="vod-grid">
                 __VODS_HTML__
             </div>
@@ -192,7 +197,6 @@ html_content = """<!DOCTYPE html>
     </footer>
 
     <script>
-        // Sayfa yüklendiğinde hafızadaki mesajları ve kullanıcı adını getir
         window.onload = function() {
             const savedName = localStorage.getItem('zentyy_username');
             if (savedName) {
@@ -226,16 +230,13 @@ html_content = """<!DOCTYPE html>
             }
             
             if (text !== "") {
-                // Ekran mesajını ekle
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'chat-msg';
                 msgDiv.innerHTML = `<div class="user">${escapeHtml(username)}</div>${escapeHtml(text)}`;
                 messagesContainer.appendChild(msgDiv);
                 
-                // Mesajı yerel hafızaya kaydet
                 const savedMessages = JSON.parse(localStorage.getItem('zentyy_chat_messages') || '[]');
                 savedMessages.push({ user: username, text: text });
-                // Son 50 mesajı tut
                 if (savedMessages.length > 50) savedMessages.shift();
                 localStorage.setItem('zentyy_chat_messages', JSON.stringify(savedMessages));
                 
@@ -258,11 +259,18 @@ html_content = """<!DOCTYPE html>
 </html>
 """
 
+avatar_html = (
+    f'<img src="{streamer_avatar}" alt="Profil Resmi">'
+    if streamer_avatar
+    else ""
+)
+
 html_content = (
     html_content.replace("__STATUS_BADGE__", status_badge)
     .replace("__DEFAULT_EMBED__", default_embed_src)
     .replace("__STREAM_TITLE__", stream_title)
     .replace("__CATEGORY__", category)
+    .replace("__AVATAR_HTML__", avatar_html)
     .replace("__VODS_HTML__", vods_html)
     .replace("__NOW__", now)
 )
