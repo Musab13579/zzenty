@@ -1,0 +1,33 @@
+name: Kick Otomasyon Guncellemesi
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Her 6 saatte bir otomatik çalışır
+  workflow_dispatch: # Manuel olarak da tetiklenebilir
+
+permissions:
+  contents: write
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu Kopyala
+        uses: actions/checkout@v3
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Guncelleme Betigini Calistir
+        run: python update_kick.py
+
+      - name: Degisiklikleri Sete Kaydet ve Yayinla
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "bot@example.com"
+          git add index.html
+          git commit -m "Otomatik Kick veri guncellemesi" || echo "Degisiklik yok"
+          git push
+          
