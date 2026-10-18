@@ -53,11 +53,8 @@ status_badge = (
     ' border-radius: 6px; font-weight: bold;">YAYIN KAPALI</span>'
 )
 
+# Canlı yayın varsayılan kanala bağlıdır (Resmi embed bağlantısı)
 default_embed_src = f"https://player.kick.com/{CHANNEL_NAME}?muted=false"
-if not is_live and vods_data_list:
-  default_embed_src = (
-      f"https://player.kick.com/video/{vods_data_list[0]['slug']}?muted=false"
-  )
 
 vods_html = ""
 if vods_data_list:
@@ -72,14 +69,15 @@ if vods_data_list:
         if thumb
         else '<div style="height:130px; background:#000;"></div>'
     )
+    video_url = f"https://kick.com/{CHANNEL_NAME}?video={slug}"
 
     vods_html += f"""
-        <div class="vod-card" onclick="playVod('https://player.kick.com/video/{slug}?muted=false', '{title}')">
+        <div class="vod-card">
             {img_tag}
             <div class="vod-info">
                 <h3>{title}</h3>
                 <p><strong>Tarih:</strong> {date}</p>
-                <span class="vod-btn">Sitede İzle 🎬</span>
+                <a href="{video_url}" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     """
@@ -109,24 +107,31 @@ html_content = """<!DOCTYPE html>
         .player-box { width: 100%; height: 450px; border-radius: 8px; overflow: hidden; background: #000; }
         .player-box iframe { width: 100%; height: 100%; border: none; }
         
+        /* Sohbet Alanı ve İsim Girişi */
         .chat-section { flex: 1; min-width: 280px; background: #141719; border: 1px solid #2a2e33; border-radius: 8px; display: flex; flex-direction: column; height: 520px; }
-        .chat-header { background: #1f2327; padding: 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; }
+        .chat-header { background: #1f2327; padding: 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; justify-content: space-between; align-items: center; }
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { background: #1f2327; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; border-left: 3px solid #53fc18; }
+        .chat-msg { background: #1f2327; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; border-left: 3px solid #53fc18; word-break: break-word; }
         .chat-msg .user { font-weight: bold; color: #53fc18; margin-bottom: 2px; font-size: 0.8rem; }
-        .chat-input-area { padding: 10px; border-top: 1px solid #2a2e33; display: flex; gap: 8px; }
-        .chat-input-area input { flex: 1; background: #0b0e0f; border: 1px solid #2a2e33; border-radius: 6px; padding: 8px; color: #fff; outline: none; }
-        .chat-input-area button { background: #53fc18; color: #000; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .chat-input-area button:hover { background: #42cb12; }
+        
+        .chat-input-container { padding: 10px; border-top: 1px solid #2a2e33; display: flex; flex-direction: column; gap: 8px; }
+        .chat-input-row { display: flex; gap: 8px; }
+        .chat-input-container input { background: #0b0e0f; border: 1px solid #2a2e33; border-radius: 6px; padding: 8px; color: #fff; outline: none; font-size: 0.85rem; }
+        .chat-input-container input:focus { border-color: #53fc18; }
+        .username-input { width: 100%; }
+        .message-input { flex: 1; }
+        .chat-input-container button { background: #53fc18; color: #000; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .chat-input-container button:hover { background: #42cb12; }
 
         .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
-        .vod-card { background: #141719; border: 1px solid #2a2e33; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
+        .vod-card { background: #141719; border: 1px solid #2a2e33; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; }
         .vod-card:hover { border-color: #53fc18; transform: translateY(-3px); }
         .vod-card img { width: 100%; height: 130px; object-fit: cover; background: #000; }
         .vod-info { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; }
         .vod-info h3 { font-size: 0.95rem; color: #fff; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .vod-info p { font-size: 0.8rem; color: #aaa; margin-bottom: 10px; }
-        .vod-btn { margin-top: auto; background-color: #2a2e33; color: #53fc18; text-align: center; padding: 6px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; }
+        .vod-btn { margin-top: auto; background-color: #2a2e33; color: #53fc18; text-align: center; padding: 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; text-decoration: none; display: block; transition: 0.2s; }
+        .vod-btn:hover { background-color: #53fc18; color: #000; }
 
         .info-row { font-size: 1rem; color: #ccc; }
         footer { margin-top: auto; padding: 20px; color: #666; font-size: 0.9rem; text-align: center; }
@@ -135,7 +140,7 @@ html_content = """<!DOCTYPE html>
 <body>
     <header>
         <h1>zentyy</h1>
-        <p class="subtitle">Canlı Yayın, Site İçi Arşiv ve Özel Sohbet Paneli</p>
+        <p class="subtitle">Canlı Yayın & Sohbet Merkezi</p>
     </header>
     
     <div class="container">
@@ -146,28 +151,33 @@ html_content = """<!DOCTYPE html>
                     <div class="player-box">
                         <iframe id="videoPlayer" src="__DEFAULT_EMBED__" allowfullscreen="true"></iframe>
                     </div>
-                    <div class="info-row"><strong>Oynatılan:</strong> <span id="currentPlayingTitle">__STREAM_TITLE__</span></div>
+                    <div class="info-row"><strong>Anlık Başlık:</strong> __STREAM_TITLE__</div>
                     <div class="info-row"><strong>Kategori:</strong> __CATEGORY__</div>
                 </div>
 
                 <div class="chat-section">
-                    <div class="chat-header">💬 Zentyy Canlı Sohbet</div>
+                    <div class="chat-header">
+                        <span>💬 Zentyy Canlı Sohbet</span>
+                    </div>
                     <div class="chat-messages" id="chatMessages">
                         <div class="chat-msg">
                             <div class="user">Sistem Botu</div>
-                            Zentyy platformuna hoş geldin! Sohbetten mesaj yazabilirsin.
+                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin.
                         </div>
                     </div>
-                    <div class="chat-input-area">
-                        <input type="text" id="chatInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
-                        <button onclick="sendMessage()">Gönder</button>
+                    <div class="chat-input-container">
+                        <input type="text" id="usernameInput" class="username-input" placeholder="Kullanıcı Adınız (Örn: ZentyFan)" maxlength="20">
+                        <div class="chat-input-row">
+                            <input type="text" id="chatInput" class="message-input" placeholder="Mesajınız..." onkeypress="handleKeyPress(event)">
+                            <button onclick="sendMessage()">Gönder</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h2>🎬 Geçmiş Yayınlar (İzlemek için tıklayın, yukarıda oynasın)</h2>
+            <h2>🎬 Geçmiş Yayın Arşivi (VODs)</h2>
             <div class="vod-grid">
                 __VODS_HTML__
             </div>
@@ -179,23 +189,24 @@ html_content = """<!DOCTYPE html>
     </footer>
 
     <script>
-        function playVod(url, title) {
-            document.getElementById('videoPlayer').src = url;
-            document.getElementById('currentPlayingTitle').innerText = title;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
         function sendMessage() {
-            const input = document.getElementById('chatInput');
+            const usernameInput = document.getElementById('usernameInput');
+            const messageInput = document.getElementById('chatInput');
             const messagesContainer = document.getElementById('chatMessages');
-            const text = input.value.trim();
             
-            if(text !== "") {
+            let username = usernameInput.value.trim();
+            const text = messageInput.value.trim();
+            
+            if (username === "") {
+                username = "Anonim İzleyici";
+            }
+            
+            if (text !== "") {
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'chat-msg';
-                msgDiv.innerHTML = `<div class="user">İzleyici</div>${escapeHtml(text)}`;
+                msgDiv.innerHTML = `<div class="user">${escapeHtml(username)}</div>${escapeHtml(text)}`;
                 messagesContainer.appendChild(msgDiv);
-                input.value = "";
+                messageInput.value = "";
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
         }
@@ -226,4 +237,4 @@ html_content = (
 with open("index.html", "w", encoding="utf-8") as f:
   f.write(html_content)
 
-print("Kod başarıyla çalıştı ve index.html güncellendi!")
+print("Güncelleme başarıyla tamamlandı!")
