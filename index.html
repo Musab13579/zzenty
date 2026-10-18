@@ -19,7 +19,7 @@
         .player-box { width: 100%; height: 450px; border-radius: 8px; overflow: hidden; background: #000; }
         .player-box iframe { width: 100%; height: 100%; border: none; }
         
-        /* Sohbet Alanı ve İsim Girişi */
+        /* Sohbet Alanı */
         .chat-section { flex: 1; min-width: 280px; background: #141719; border: 1px solid #2a2e33; border-radius: 8px; display: flex; flex-direction: column; height: 520px; }
         .chat-header { background: #1f2327; padding: 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; justify-content: space-between; align-items: center; }
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -97,7 +97,7 @@
             <div class="vod-info">
                 <h3>Minecraft AesirMc</h3>
                 <p><strong>Tarih:</strong> 2026-10-17</p>
-                <a href="https://kick.com/r7-zenty?video=a24afb274f798067-minecraft-aesirmc" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/a24afb274f798067-minecraft-aesirmc" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -106,7 +106,7 @@
             <div class="vod-info">
                 <h3>Minecraft AesirMc</h3>
                 <p><strong>Tarih:</strong> 2026-10-17</p>
-                <a href="https://kick.com/r7-zenty?video=e7575f2262d76e87-minecraft-aesirmc" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/e7575f2262d76e87-minecraft-aesirmc" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -115,7 +115,7 @@
             <div class="vod-info">
                 <h3>Roblox gel</h3>
                 <p><strong>Tarih:</strong> 2026-10-16</p>
-                <a href="https://kick.com/r7-zenty?video=c3090a5f-roblox-gel" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/c3090a5f-roblox-gel" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -124,7 +124,7 @@
             <div class="vod-info">
                 <h3>Roblox gel</h3>
                 <p><strong>Tarih:</strong> 2026-10-16</p>
-                <a href="https://kick.com/r7-zenty?video=7d66f12adcb8105a-roblox-gel" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/7d66f12adcb8105a-roblox-gel" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -133,7 +133,7 @@
             <div class="vod-info">
                 <h3>E Football</h3>
                 <p><strong>Tarih:</strong> 2026-10-16</p>
-                <a href="https://kick.com/r7-zenty?video=1d9ab0d1-e-football" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/1d9ab0d1-e-football" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -142,7 +142,7 @@
             <div class="vod-info">
                 <h3>Yayın</h3>
                 <p><strong>Tarih:</strong> 2026-10-15</p>
-                <a href="https://kick.com/r7-zenty?video=33aeea0a76e421b2-yayin" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/33aeea0a76e421b2-yayin" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -151,7 +151,7 @@
             <div class="vod-info">
                 <h3>Yayın</h3>
                 <p><strong>Tarih:</strong> 2026-10-15</p>
-                <a href="https://kick.com/r7-zenty?video=a3e911dc-yayin" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="https://kick.com/video/a3e911dc-yayin" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     
@@ -160,10 +160,29 @@
     </div>
 
     <footer>
-        <p>Otomatik Güncelleme: 18.10.2026 22:33 | &copy; zentyy</p>
+        <p>Otomatik Güncelleme: 18.10.2026 22:43 | &copy; zentyy</p>
     </footer>
 
     <script>
+        // Sayfa yüklendiğinde hafızadaki mesajları ve kullanıcı adını getir
+        window.onload = function() {
+            const savedName = localStorage.getItem('zentyy_username');
+            if (savedName) {
+                document.getElementById('usernameInput').value = savedName;
+            }
+            
+            const savedMessages = JSON.parse(localStorage.getItem('zentyy_chat_messages') || '[]');
+            const messagesContainer = document.getElementById('chatMessages');
+            
+            savedMessages.forEach(msg => {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-msg';
+                msgDiv.innerHTML = `<div class="user">${escapeHtml(msg.user)}</div>${escapeHtml(msg.text)}`;
+                messagesContainer.appendChild(msgDiv);
+            });
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        };
+
         function sendMessage() {
             const usernameInput = document.getElementById('usernameInput');
             const messageInput = document.getElementById('chatInput');
@@ -174,13 +193,24 @@
             
             if (username === "") {
                 username = "Anonim İzleyici";
+            } else {
+                localStorage.setItem('zentyy_username', username);
             }
             
             if (text !== "") {
+                // Ekran mesajını ekle
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'chat-msg';
                 msgDiv.innerHTML = `<div class="user">${escapeHtml(username)}</div>${escapeHtml(text)}`;
                 messagesContainer.appendChild(msgDiv);
+                
+                // Mesajı yerel hafızaya kaydet
+                const savedMessages = JSON.parse(localStorage.getItem('zentyy_chat_messages') || '[]');
+                savedMessages.push({ user: username, text: text });
+                // Son 50 mesajı tut
+                if (savedMessages.length > 50) savedMessages.shift();
+                localStorage.setItem('zentyy_chat_messages', JSON.stringify(savedMessages));
+                
                 messageInput.value = "";
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
