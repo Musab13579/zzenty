@@ -31,6 +31,7 @@ try:
         vod_title = vod.get("session_title", "Kayıtsız Yayın")
         vod_date = vod.get("created_at", "")[:10]
         vod_slug = vod.get("slug", "")
+        vod_id = vod.get("id", "")
         vod_thumbnail = ""
         if vod.get("thumbnail") and isinstance(vod["thumbnail"], dict):
           vod_thumbnail = vod["thumbnail"].get("url", "")
@@ -39,6 +40,7 @@ try:
             "title": vod_title,
             "date": vod_date,
             "slug": vod_slug,
+            "id": vod_id,
             "thumbnail": vod_thumbnail,
         })
 except Exception as e:
@@ -53,7 +55,6 @@ status_badge = (
     ' border-radius: 6px; font-weight: bold;">YAYIN KAPALI</span>'
 )
 
-# Canlı yayın varsayılan kanala bağlıdır (Resmi embed bağlantısı)
 default_embed_src = f"https://player.kick.com/{CHANNEL_NAME}?muted=false"
 
 vods_html = ""
@@ -69,7 +70,9 @@ if vods_data_list:
         if thumb
         else '<div style="height:130px; background:#000;"></div>'
     )
-    video_url = f"https://kick.com/{CHANNEL_NAME}?video={slug}"
+
+    # Doğrudan VOD yayınına giden özel Kick video URL'si
+    video_url = f"https://kick.com/video/{slug}"
 
     vods_html += f"""
         <div class="vod-card">
@@ -77,7 +80,7 @@ if vods_data_list:
             <div class="vod-info">
                 <h3>{title}</h3>
                 <p><strong>Tarih:</strong> {date}</p>
-                <a href="{video_url}" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="{video_url}" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     """
@@ -107,7 +110,7 @@ html_content = """<!DOCTYPE html>
         .player-box { width: 100%; height: 450px; border-radius: 8px; overflow: hidden; background: #000; }
         .player-box iframe { width: 100%; height: 100%; border: none; }
         
-        /* Sohbet Alanı ve İsim Girişi */
+        /* Sohbet Alanı */
         .chat-section { flex: 1; min-width: 280px; background: #141719; border: 1px solid #2a2e33; border-radius: 8px; display: flex; flex-direction: column; height: 520px; }
         .chat-header { background: #1f2327; padding: 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; justify-content: space-between; align-items: center; }
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -189,6 +192,25 @@ html_content = """<!DOCTYPE html>
     </footer>
 
     <script>
+        // Sayfa yüklendiğinde hafızadaki mesajları ve kullanıcı adını getir
+        window.onload = function() {
+            const savedName = localStorage.getItem('zentyy_username');
+            if (savedName) {
+                document.getElementById('usernameInput').value = savedName;
+            }
+            
+            const savedMessages = JSON.parse(localStorage.getItem('zentyy_chat_messages') || '[]');
+            const messagesContainer = document.getElementById('chatMessages');
+            
+            savedMessages.forEach(msg => {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-msg';
+                msgDiv.innerHTML = `<div class="user">${escapeHtml(msg.user)}</div>${escapeHtml(msg.text)}`;
+                messagesContainer.appendChild(msgDiv);
+            });
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        };
+
         function sendMessage() {
             const usernameInput = document.getElementById('usernameInput');
             const messageInput = document.getElementById('chatInput');
@@ -199,13 +221,24 @@ html_content = """<!DOCTYPE html>
             
             if (username === "") {
                 username = "Anonim İzleyici";
+            } else {
+                localStorage.setItem('zentyy_username', username);
             }
             
             if (text !== "") {
+                // Ekran mesajını ekle
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'chat-msg';
                 msgDiv.innerHTML = `<div class="user">${escapeHtml(username)}</div>${escapeHtml(text)}`;
                 messagesContainer.appendChild(msgDiv);
+                
+                // Mesajı yerel hafızaya kaydet
+                const savedMessages = JSON.parse(localStorage.getItem('zentyy_chat_messages') || '[]');
+                savedMessages.push({ user: username, text: text });
+                // Son 50 mesajı tut
+                if (savedMessages.length > 50) savedMessages.shift();
+                localStorage.setItem('zentyy_chat_messages', JSON.stringify(savedMessages));
+                
                 messageInput.value = "";
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
