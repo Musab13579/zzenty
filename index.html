@@ -3,46 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zentyy - Kick Yayın İstatistikleri</title>
+    <title>zentyy - Canlı Yayın & Arşiv</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0e0f; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
-        header { text-align: center; margin-top: 20px; margin-bottom: 30px; }
-        h1 { color: #53fc18; font-size: 2.5rem; margin-bottom: 10px; }
+        header { text-align: center; margin-top: 10px; margin-bottom: 20px; }
+        h1 { color: #53fc18; font-size: 2.5rem; margin-bottom: 5px; }
         p.subtitle { color: #a0a0a0; font-size: 1.1rem; }
-        .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 20px; }
         .card { background: #191c1e; border: 1px solid #2a2e33; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .card h2 { color: #53fc18; font-size: 1.4rem; margin-bottom: 12px; border-bottom: 1px solid #2a2e33; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .kick-btn { display: inline-block; background-color: #53fc18; color: #000000; font-weight: bold; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 15px; }
-        .info-row { margin-bottom: 10px; font-size: 1.05rem; }
-        footer { margin-top: auto; padding: 20px; color: #666; font-size: 0.9rem; }
+        .card h2 { color: #53fc18; font-size: 1.3rem; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2e33; padding-bottom: 8px; }
+        
+        /* Yayın ve Sohbet Düzeni */
+        .stream-layout { display: flex; gap: 15px; flex-wrap: wrap; }
+        .player-box { flex: 3; min-width: 300px; border-radius: 8px; overflow: hidden; background: #000; }
+        .chat-box { flex: 1; min-width: 250px; border-radius: 8px; overflow: hidden; background: #141719; border: 1px solid #2a2e33; }
+
+        /* VOD / Arşiv Listesi */
+        .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .vod-card { background: #141719; border: 1px solid #2a2e33; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+        .vod-card img { width: 100%; height: 140px; object-fit: cover; background: #000; }
+        .vod-info { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; }
+        .vod-info h3 { font-size: 1rem; color: #fff; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .vod-info p { font-size: 0.85rem; color: #aaa; margin-bottom: 10px; }
+        .vod-btn { margin-top: auto; background-color: #2a2e33; color: #fff; text-align: center; padding: 8px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: 0.2s; }
+        .vod-btn:hover { background-color: #53fc18; color: #000; }
+
+        .kick-btn { display: inline-block; background-color: #53fc18; color: #000000; font-weight: bold; padding: 10px 20px; border-radius: 8px; text-decoration: none; margin-top: 15px; text-align: center; }
+        .info-row { margin-bottom: 6px; font-size: 1rem; color: #ccc; }
+        footer { margin-top: auto; padding: 20px; color: #666; font-size: 0.9rem; text-align: center; }
     </style>
 </head>
 <body>
     <header>
         <h1>zentyy</h1>
-        <p class="subtitle">Kick Yayınlarım ve Son Geçmiş Yayın Bilgileri</p>
+        <p class="subtitle">Canlı Yayın, Sohbet ve Video Arşivi</p>
     </header>
+    
     <div class="container">
-        <!-- Canlı Yayın Durum Kartı -->
+        <!-- Canlı Yayın & Sohbet Kartı -->
         <div class="card">
-            <h2>Kanal Durumu <span style="background-color: #444; color: #fff; padding: 4px 10px; border-radius: 6px;">YAYIN KAPALI</span></h2>
-            <div class="info-row"><strong>Yayın Başlığı:</strong> Yayın Kapalı</div>
+            <h2>Kanal Canlı Oynatıcısı & Sohbet <span style="background-color: #333; color: #fff; padding: 4px 10px; border-radius: 6px;">YAYIN KAPALI</span></h2>
+            
+<div class="stream-layout">
+    <div class="player-box">
+        <iframe src="https://player.kick.com/r7-zenty?muted=false" height="450" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+    </div>
+    <div class="chat-box">
+        <iframe src="https://kick.com/r7-zenty/chatroom" height="450" width="100%" frameborder="0"></iframe>
+    </div>
+</div>
+
+            <div style="margin-top: 15px;" class="info-row"><strong>Anlık Başlık:</strong> Yayın Kapalı</div>
             <div class="info-row"><strong>Kategori:</strong> Belirtilmedi</div>
-            <a href="https://kick.com/r7-zenty" target="_blank" class="kick-btn">Kick Kanalıma Git</a>
         </div>
 
-        <!-- Son Yayın / VOD Kartı -->
+        <!-- Eski Yayınlar / VOD Arşivi Kartı -->
         <div class="card">
-            <h2>🎬 Son Yayın İstatistiği & Kaydı</h2>
-            <div class="info-row"><strong>Son Yayın Adı:</strong> Minecraft AesirMc</div>
-            <div class="info-row"><strong>Tarih:</strong> 2026-10-17</div>
-            <p style="margin-top: 10px;">Yayın kaydını izlemek için aşağıdaki butona tıklayabilirsin:</p>
-            <a href="https://kick.com/r7-zenty?video=a24afb274f798067-minecraft-aesirmc" target="_blank" class="kick-btn" style="background-color: #2a2e33; color: #fff;">Son Yayını İzle</a>
+            <h2>🎬 Geçmiş Yayınlar ve Arşiv (VODs)</h2>
+            <div class="vod-grid">
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>Minecraft AesirMc</h3>
+                        <p><strong>Tarih:</strong> 2026-10-17</p>
+                        <a href="https://kick.com/r7-zenty?video=a24afb274f798067-minecraft-aesirmc" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>Minecraft AesirMc</h3>
+                        <p><strong>Tarih:</strong> 2026-10-17</p>
+                        <a href="https://kick.com/r7-zenty?video=e7575f2262d76e87-minecraft-aesirmc" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>Roblox gel</h3>
+                        <p><strong>Tarih:</strong> 2026-10-16</p>
+                        <a href="https://kick.com/r7-zenty?video=c3090a5f-roblox-gel" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>Roblox gel</h3>
+                        <p><strong>Tarih:</strong> 2026-10-16</p>
+                        <a href="https://kick.com/r7-zenty?video=7d66f12adcb8105a-roblox-gel" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>E Football</h3>
+                        <p><strong>Tarih:</strong> 2026-10-16</p>
+                        <a href="https://kick.com/r7-zenty?video=1d9ab0d1-e-football" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>Yayın</h3>
+                        <p><strong>Tarih:</strong> 2026-10-15</p>
+                        <a href="https://kick.com/r7-zenty?video=33aeea0a76e421b2-yayin" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+                <div class="vod-card">
+                    
+                    <div class="vod-info">
+                        <h3>Yayın</h3>
+                        <p><strong>Tarih:</strong> 2026-10-15</p>
+                        <a href="https://kick.com/r7-zenty?video=a3e911dc-yayin" target="_blank" class="vod-btn">Yayını İzle</a>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
+
     <footer>
-        <p>Son Otomatik Güncelleme: 18.10.2026 22:08 | &copy; zentyy</p>
+        <p>Otomatik Güncelleme: 18.10.2026 22:15 | &copy; zentyy</p>
     </footer>
 </body>
 </html>
