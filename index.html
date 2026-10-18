@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zentyy - Canlı Yayın & Video Arşivi</title>
+    <title>zentyy - Canlı Yayın & Arşiv</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0e0f; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
@@ -19,9 +19,11 @@
         .player-box { width: 100%; height: 450px; border-radius: 8px; overflow: hidden; background: #000; }
         .player-box iframe { width: 100%; height: 100%; border: none; }
         
-        /* Sohbet Alanı */
+        /* Sohbet ve Profil Resmi Alanı */
         .chat-section { flex: 1; min-width: 280px; background: #141719; border: 1px solid #2a2e33; border-radius: 8px; display: flex; flex-direction: column; height: 520px; }
-        .chat-header { background: #1f2327; padding: 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header { background: #1f2327; padding: 10px 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; align-items: center; gap: 10px; }
+        .chat-header img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #53fc18; }
+        
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { background: #1f2327; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; border-left: 3px solid #53fc18; word-break: break-word; }
         .chat-msg .user { font-weight: bold; color: #53fc18; margin-bottom: 2px; font-size: 0.8rem; }
@@ -57,7 +59,7 @@
     
     <div class="container">
         <div class="card">
-            <h2>Yayın Oynatıcısı & Sohbet <span style="background-color: #333; color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: bold;">YAYIN KAPALI</span></h2>
+            <h2>Canlı Yayın Oynatıcısı <span style="background-color: #333; color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: bold;">YAYIN KAPALI</span></h2>
             <div class="main-grid">
                 <div class="player-section">
                     <div class="player-box">
@@ -69,12 +71,13 @@
 
                 <div class="chat-section">
                     <div class="chat-header">
-                        <span>💬 Zentyy Canlı Sohbet</span>
+                        <img src="https://files.kick.com/images/user/36312349/profile_image/conversion/bfea84c0-3614-4340-b26a-a391da91c911-fullsize.webp" alt="Profil Resmi">
+                        <span>Zentyy Canlı Sohbet</span>
                     </div>
                     <div class="chat-messages" id="chatMessages">
                         <div class="chat-msg">
                             <div class="user">Sistem Botu</div>
-                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin.
+                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin. Mesajların hafızada saklanır.
                         </div>
                     </div>
                     <div class="chat-input-container">
@@ -89,15 +92,15 @@
         </div>
 
         <div class="card">
-            <h2>🎬 Geçmiş Yayın Arşivi (VODs)</h2>
+            <h2>🎬 Geçmiş Yayın Arşivi & Detaylı İstatistikler</h2>
             <div class="vod-grid">
                 
         <div class="vod-card">
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>Minecraft AesirMc</h3>
-                <p><strong>Tarih:</strong> 2026-10-17</p>
-                <a href="https://kick.com/video/a24afb274f798067-minecraft-aesirmc" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-17</p>
+                <a href="https://kick.com/video/a24afb274f798067-minecraft-aesirmc" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -105,8 +108,8 @@
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>Minecraft AesirMc</h3>
-                <p><strong>Tarih:</strong> 2026-10-17</p>
-                <a href="https://kick.com/video/e7575f2262d76e87-minecraft-aesirmc" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-17</p>
+                <a href="https://kick.com/video/e7575f2262d76e87-minecraft-aesirmc" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -114,8 +117,8 @@
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>Roblox gel</h3>
-                <p><strong>Tarih:</strong> 2026-10-16</p>
-                <a href="https://kick.com/video/c3090a5f-roblox-gel" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-16</p>
+                <a href="https://kick.com/video/c3090a5f-roblox-gel" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -123,8 +126,8 @@
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>Roblox gel</h3>
-                <p><strong>Tarih:</strong> 2026-10-16</p>
-                <a href="https://kick.com/video/7d66f12adcb8105a-roblox-gel" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-16</p>
+                <a href="https://kick.com/video/7d66f12adcb8105a-roblox-gel" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -132,8 +135,8 @@
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>E Football</h3>
-                <p><strong>Tarih:</strong> 2026-10-16</p>
-                <a href="https://kick.com/video/1d9ab0d1-e-football" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-16</p>
+                <a href="https://kick.com/video/1d9ab0d1-e-football" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -141,8 +144,8 @@
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>Yayın</h3>
-                <p><strong>Tarih:</strong> 2026-10-15</p>
-                <a href="https://kick.com/video/33aeea0a76e421b2-yayin" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-15</p>
+                <a href="https://kick.com/video/33aeea0a76e421b2-yayin" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -150,8 +153,8 @@
             <div style="height:130px; background:#000;"></div>
             <div class="vod-info">
                 <h3>Yayın</h3>
-                <p><strong>Tarih:</strong> 2026-10-15</p>
-                <a href="https://kick.com/video/a3e911dc-yayin" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <p><strong>📅 Tarih:</strong> 2026-10-15</p>
+                <a href="https://kick.com/video/a3e911dc-yayin" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
             </div>
         </div>
     
@@ -160,11 +163,10 @@
     </div>
 
     <footer>
-        <p>Otomatik Güncelleme: 18.10.2026 22:43 | &copy; zentyy</p>
+        <p>Otomatik Güncelleme: 18.10.2026 22:51 | &copy; zentyy</p>
     </footer>
 
     <script>
-        // Sayfa yüklendiğinde hafızadaki mesajları ve kullanıcı adını getir
         window.onload = function() {
             const savedName = localStorage.getItem('zentyy_username');
             if (savedName) {
@@ -198,16 +200,13 @@
             }
             
             if (text !== "") {
-                // Ekran mesajını ekle
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'chat-msg';
                 msgDiv.innerHTML = `<div class="user">${escapeHtml(username)}</div>${escapeHtml(text)}`;
                 messagesContainer.appendChild(msgDiv);
                 
-                // Mesajı yerel hafızaya kaydet
                 const savedMessages = JSON.parse(localStorage.getItem('zentyy_chat_messages') || '[]');
                 savedMessages.push({ user: username, text: text });
-                // Son 50 mesajı tut
                 if (savedMessages.length > 50) savedMessages.shift();
                 localStorage.setItem('zentyy_chat_messages', JSON.stringify(savedMessages));
                 
