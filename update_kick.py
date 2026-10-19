@@ -82,7 +82,7 @@ if vods_data_list:
             <div class="vod-info">
                 <h3>{title}</h3>
                 <p><strong>📅 Tarih:</strong> {date}</p>
-                <a href="{video_url}" target="_blank" class="vod-btn">Kick'te İzle 🎬</a>
+                <a href="{video_url}" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
             </div>
         </div>
     """
@@ -170,7 +170,7 @@ html_content = """<!DOCTYPE html>
                     <div class="chat-messages" id="chatMessages">
                         <div class="chat-msg">
                             <div class="user">Sistem Botu</div>
-                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin. Mesajların hafızada saklanır.
+                            Zentyy sohbetine hoş geldin! İsmini girip mesaj yazabilirsin.
                         </div>
                     </div>
                     <div class="chat-input-container">
