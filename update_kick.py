@@ -19,7 +19,6 @@ try:
   with urllib.request.urlopen(req) as response:
     data = json.loads(response.read().decode())
 
-    # Yayıncının Profil Resmi (Avatar) URL'si
     user_info = data.get("user", {})
     if user_info and isinstance(user_info, dict):
       streamer_avatar = user_info.get("profile_pic", "")
@@ -82,7 +81,7 @@ if vods_data_list:
             <div class="vod-info">
                 <h3>{title}</h3>
                 <p><strong>📅 Tarih:</strong> {date}</p>
-                <a href="{video_url}" target="_blank" class="vod-btn">Videoyu İzle 🎬</a>
+                <a href="{video_url}" target="_blank" class="vod-btn">Yayını İzle 🎬</a>
             </div>
         </div>
     """
@@ -112,7 +111,6 @@ html_content = """<!DOCTYPE html>
         .player-box { width: 100%; height: 450px; border-radius: 8px; overflow: hidden; background: #000; }
         .player-box iframe { width: 100%; height: 100%; border: none; }
         
-        /* Sohbet ve Profil Resmi Alanı */
         .chat-section { flex: 1; min-width: 280px; background: #141719; border: 1px solid #2a2e33; border-radius: 8px; display: flex; flex-direction: column; height: 520px; }
         .chat-header { background: #1f2327; padding: 10px 12px; font-weight: bold; color: #53fc18; border-bottom: 1px solid #2a2e33; display: flex; align-items: center; gap: 10px; }
         .chat-header img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #53fc18; }
