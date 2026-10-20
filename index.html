@@ -1,201 +1,139 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>r7-zenty | Kick Yayını</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101010">
-
+  <title>r7-zenty | Kick</title>
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       background: #101010;
-      color: white;
+      color: #fff;
       font-family: Arial, sans-serif;
     }
-
     header {
-      padding: 22px 16px;
+      padding: 24px 12px;
       text-align: center;
-      background: #171717;
+      background: #191919;
       border-bottom: 2px solid #53fc18;
     }
-
-    header h1 {
-      margin: 0 0 8px;
-      color: #53fc18;
-      font-size: 30px;
-    }
-
-    header p { margin: 0; color: #bbb; }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px 14px 40px;
-    }
-
+    header h1 { margin: 0 0 8px; color: #53fc18; }
+    main { max-width: 1100px; margin: auto; padding: 16px; }
     .panel {
       background: #191919;
-      border: 1px solid #303030;
+      border: 1px solid #333;
       border-radius: 14px;
       padding: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      min-width: 0;
     }
-
-    h2 {
-      margin: 0 0 16px;
-      font-size: 22px;
-    }
-
-    .live-label {
-      color: #53fc18;
-    }
-
+    h2 { margin-top: 0; }
     .player {
-      position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 10px;
       background: #000;
+      border-radius: 10px;
+      overflow: hidden;
     }
-
-    .player iframe {
+    .player iframe { width: 100%; height: 100%; border: 0; }
+    .chat-frame {
       width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .chat {
-      width: 100%;
-      height: 500px;
+      height: 520px;
       border: 0;
       border-radius: 10px;
       background: #111;
     }
-
-    .profile {
-      text-align: center;
-    }
-
-    .avatar-link {
-      display: inline-block;
-      margin: 5px 0 14px;
-    }
-
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #53fc18;
-      background: #252525;
-    }
-
     .button {
       display: inline-block;
-      padding: 12px 18px;
-      margin: 5px;
-      border-radius: 9px;
+      padding: 12px 16px;
+      margin: 5px 4px 5px 0;
       background: #53fc18;
       color: #111;
-      font-weight: bold;
+      border-radius: 8px;
       text-decoration: none;
+      font-weight: bold;
     }
-
-    .button.secondary {
+    .secondary { background: #292929; color: white; border: 1px solid #444; }
+    .muted { color: #aaa; font-size: 14px; line-height: 1.5; }
+    .profile { text-align: center; }
+    .avatar {
+      width: 125px;
+      height: 125px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #53fc18;
       background: #292929;
-      color: white;
-      border: 1px solid #444;
     }
-
-    .muted {
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    footer {
-      padding: 20px;
-      text-align: center;
-      color: #888;
-    }
-
+    .avatar-link { display: inline-block; margin: 8px; }
+    .columns { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    footer { text-align: center; padding: 20px; color: #888; }
     @media (min-width: 800px) {
-      .columns {
-        display: grid;
-        grid-template-columns: 1.7fr 1fr;
-        gap: 20px;
-        align-items: start;
-      }
+      .columns { grid-template-columns: 1.4fr 1fr; }
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>r7-zenty</h1>
-    <p>Kick yayın kanalıma hoş geldin!</p>
+    <div>Kick yayın kanalıma hoş geldin!</div>
   </header>
 
   <main>
     <section class="panel">
-      <h2><span class="live-label">●</span> Canlı Yayın</h2>
+      <h2>🟢 Canlı Yayın</h2>
       <div class="player">
         <iframe
           src="https://player.kick.com/r7-zenty"
           title="r7-zenty canlı yayın"
-          allowfullscreen="true"
-          scrolling="no">
+          allowfullscreen>
         </iframe>
       </div>
-      <p class="muted">
-        Yayın görünmüyorsa şu anda canlı olmayabilirim.
-      </p>
-      <a class="button"
-         href="https://kick.com/r7-zenty"
-         target="_blank"
-         rel="noopener noreferrer">
-        Kick Kanalıma Git
-      </a>
+      <a class="button" href="https://kick.com/r7-zenty"
+         target="_blank" rel="noopener noreferrer">Kick Kanalıma Git</a>
     </section>
 
     <div class="columns">
       <section class="panel">
         <h2>💬 Canlı Sohbet</h2>
+
         <iframe
-          class="chat"
-          src="https://kick.com/popout/r7-zenty/chat"
-          title="r7-zenty canlı sohbet">
+          class="chat-frame"
+          src="https://chat.kick.cx/embed/r7-zenty"
+          title="r7-zenty sohbeti"
+          loading="lazy">
         </iframe>
+
         <p class="muted">
-          Mesaj göndermek için Kick hesabınla giriş yapman gerekebilir.
+          Sohbete giriş yapılamıyorsa aşağıdaki düğmeyle Kick'i aç.
+          Giriş ve mesaj gönderme, kullandığın sohbet hizmetinin
+          desteğine bağlıdır.
         </p>
-        <a class="button secondary"
+
+        <a class="button"
            href="https://kick.com/r7-zenty"
-           target="_blank"
-           rel="noopener noreferrer">
-          Sohbet açılmazsa Kick'e git
+           target="_blank" rel="noopener noreferrer">
+          Kick'te giriş yap ve sohbet et
+        </a>
+        <a class="button secondary"
+           href="https://kick.com/popout/r7-zenty/chat"
+           target="_blank" rel="noopener noreferrer">
+          Sohbeti ayrı aç
         </a>
       </section>
 
       <section class="panel profile">
         <h2>Kanal Bilgileri</h2>
         <h3>r7-zenty</h3>
-
-        <p>Takipçiler</p>
+        <p>Takipçi sayısı</p>
         <strong id="followers">Yükleniyor…</strong>
-
-        <p class="muted" id="profile-status">
-          Kanal bilgileri alınıyor.
+        <p class="muted" id="channel-status">
+          Takipçi sayısı alınamazsa Kick profilinden kontrol edebilirsin.
         </p>
-
-        <a class="button"
-           href="https://kick.com/r7-zenty"
-           target="_blank"
-           rel="noopener noreferrer">
+        <a class="button" href="https://kick.com/r7-zenty"
+           target="_blank" rel="noopener noreferrer">
           Kanalıma Git
         </a>
       </section>
@@ -203,57 +141,55 @@
 
     <section class="panel profile">
       <h2>Videolar</h2>
+
       <a class="avatar-link"
          href="https://kick.com/r7-zenty/videos"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="Kick videolarımı aç">
+         aria-label="r7-zenty videolarını aç">
         <img
           id="profile-avatar"
           class="avatar"
           src="https://kick.com/img/kick-logo.svg"
           alt="r7-zenty profil resmi">
       </a>
-      <p class="muted">Videolarımı görmek için profil resmime bas.</p>
+
+      <p class="muted">
+        Profil resmine basarak tüm yayın kayıtlarını aç.
+      </p>
       <a class="button"
          href="https://kick.com/r7-zenty/videos"
-         target="_blank"
-         rel="noopener noreferrer">
-        Tüm Videolar
+         target="_blank" rel="noopener noreferrer">
+        Videoları Gör
       </a>
     </section>
   </main>
 
-  <footer>
-    r7-zenty © 2026
-  </footer>
+  <footer>r7-zenty © 2026</footer>
 
   <script>
-    async function loadChannelInfo() {
-      const followers = document.getElementById("followers");
-      const avatar = document.getElementById("profile-avatar");
-      const status = document.getElementById("profile-status");
-
+    async function loadChannel() {
       try {
         const response = await fetch(
           "https://kick.com/api/v2/channels/r7-zenty",
-          { headers: { "Accept": "application/json" } }
+          { headers: { Accept: "application/json" } }
         );
-
         if (!response.ok) throw new Error("Kanal bilgisi alınamadı");
 
         const data = await response.json();
         const user = data.user || data.channel?.user || {};
+
         const count =
           data.followers_count ??
           data.followersCount ??
           data.followers ??
-          data.followers_count_total;
+          user.followers_count;
 
-        if (typeof count === "number" || typeof count === "string") {
-          followers.textContent = Number(count).toLocaleString("tr-TR");
+        if (count !== undefined && count !== null &&
+            !Number.isNaN(Number(count))) {
+          document.getElementById("followers").textContent =
+            Number(count).toLocaleString("tr-TR");
         } else {
-          followers.textContent = "Kick profilinde görüntüle";
+          document.getElementById("followers").textContent =
+            "Kick profilinde görüntüle";
         }
 
         const picture =
@@ -262,26 +198,16 @@
           user.profile_picture ||
           data.profile_pic;
 
-        if (picture && typeof picture === "string") {
-          avatar.src = picture;
+        if (picture) {
+          document.getElementById("profile-avatar").src = picture;
         }
-
-        status.textContent = "Kick kanal bilgileri";
       } catch (error) {
-        followers.textContent = "Kick profilinde görüntüle";
-        status.textContent =
-          "Takipçi sayısı otomatik alınamadı. Kanalı ziyaret edebilirsin.";
+        document.getElementById("followers").textContent =
+          "Kick profilinde görüntüle";
       }
     }
 
-    document.getElementById("profile-avatar").addEventListener(
-      "error",
-      function () {
-        this.style.display = "none";
-      }
-    );
-
-    loadChannelInfo();
+    loadChannel();
   </script>
 </body>
 </html>
