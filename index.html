@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d0b">
+<title>Zentyy • Kick Yayın Merkezi</title>
+<style>
+:root{color-scheme:dark;--bg:#090d0b;--panel:#171c1e;--panel2:#101416;--green:#53ff29;--muted:#a6b0aa;--line:#2a3330}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f3f5f4;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+a{color:var(--green)}.wrap{width:min(1440px,100% - 28px);margin:auto}
+header{padding:24px 0 18px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:20px}
+.brand{font-weight:900;font-size:34px;letter-spacing:-1px;color:var(--green);margin:0}.sub{color:var(--muted);margin:2px 0 0}
+h2{font-size:19px;margin:0 0 14px}h3{font-size:15px;margin:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 8px 28px #0002}
+.section-title{display:flex;align-items:center;gap:9px;color:var(--green);border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px}
+.live-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(280px,0.9fr);gap:16px}
+.player{position:relative;width:100%;aspect-ratio:16/9;background:#050606;border-radius:9px;overflow:hidden}
+iframe{border:0;width:100%;height:100%;display:block}.player iframe{position:absolute;inset:0}
+.status{display:inline-flex;align-items:center;gap:7px;background:#282f2b;border-radius:8px;padding:6px 10px;font-weight:800;font-size:12px}
+.dot{width:8px;height:8px;background:#777;border-radius:50%}.dot.live{background:#ff3131;box-shadow:0 0 12px #ff3131}
+.note{font-size:12px;color:var(--muted);margin:9px 0 0}
+.chat-frame{height:100%;min-height:400px;border-radius:9px;overflow:hidden;background:var(--panel2)}
+.chat-frame iframe{height:100%;min-height:400px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:var(--panel2);border:1px solid var(--line);padding:15px;border-radius:10px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:23px;color:var(--green);display:block;margin-top:4px;overflow-wrap:anywhere}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 15px}
+input,select,button{font:inherit;color:inherit;background:#0c1010;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+input{flex:1;min-width:170px}button{cursor:pointer;background:var(--green);color:#071005;font-weight:800;border-color:var(--green)}button.secondary{background:#262d2a;color:#fff;border-color:#363e3a}
+.vods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vod{background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+.thumb{aspect-ratio:16/9;background:#050606;display:grid;place-items:center;color:#7e8982;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}.vod-body{padding:12px}
+.vod-title{font-weight:800;line-height:1.35;min-height:40px;overflow-wrap:anywhere}
+.meta{font-size:12px;color:var(--muted);margin:7px 0}.vod-actions{display:flex;gap:8px}.vod-actions button{flex:1;padding:8px;font-size:13px}
+.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;grid-column:1/-1}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:20;padding:16px;align-items:center;justify-content:center}.modal.open{display:flex}
+.modal-inner{width:min(1100px,100%);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.modal-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.vod-player{aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden}.vod-player iframe{width:100%;height:100%}
+footer{text-align:center;color:var(--muted);padding:15px 0 28px;font-size:12px}
+@media(max-width:850px){.live-grid{grid-template-columns:1fr}.chat-frame,.chat-frame iframe{min-height:470px}.vods{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.wrap{width:calc(100% - 18px)}.panel{padding:12px}.vods{grid-template-columns:1fr}.brand{font-size:29px}.stat strong{font-size:20px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p class="brand">zentyy</p><p class="sub">r7_zenty • Canlı Yayın & VOD Merkezi</p></div></header>
+<main class="wrap">
+<section class="panel">
+  <div class="section-title"><h2>🔴 Canlı yayın</h2><span class="status"><i id="liveDot" class="dot"></i><span id="liveText">Kick durumu kontrol ediliyor</span></span></div>
+  <div class="live-grid">
+    <div>
+      <div class="player"><iframe title="r7_zenty Kick canlı yayın" src="https://player.kick.com/r7_zenty" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p class="note">Kick’in resmî gömülü oynatıcısı. Yayın kapalıyken oynatıcı çevrimdışı görünebilir.</p>
+    </div>
+    <div class="chat-frame"><iframe title="r7_zenty sohbeti" src="https://chat.kick.cx/embed/r7_zenty" loading="lazy" allow="clipboard-write"></iframe></div>
+  </div>
+</section>
+<section class="panel">
+  <div class="section-title"><h2>📊 VOD arşivi istatistikleri</h2></div>
+  <div class="stats">
+    <div class="stat"><span>Listelenen VOD</span><strong id="vodCount">—</strong></div>
+    <div class="stat"><span>Toplam görüntülenme*</span><strong id="viewsTotal">—</strong></div>
+    <div class="stat"><span>Toplam yayın süresi*</span><strong id="durationTotal">—</strong></div>
+    <div class="stat"><span>Ortalama görüntülenme*</span><strong id="viewsAverage">—</strong></div>
+  </div>
+  <p class="note">* Yalnızca veri kaynağının sağladığı alanlar hesaplanır. Bu değerler Kick’in resmî analiz panelindeki tüm ölçümlerin yerine geçmez.</p>
+</section>
+<section class="panel">
+  <div class="section-title"><h2>🎬 Geçmiş yayınlar / VOD’lar</h2></div>
+  <div class="tools"><input id="search" type="search" placeholder="Yayın başlığı ara…"><select id="sort"><option value="new">En yeni</option><option value="views">En çok görüntülenme</option><option value="old">En eski</option></select><button id="refresh" class="secondary">Yenile</button></div>
+  <div id="vods" class="vods"><div class="empty">VOD listesi yükleniyor…</div></div>
+  <p class="note" id="updated"></p>
+</section>
+</main>
+<footer>Zentyy • Kick: <a href="https://kick.com/r7_zenty" target="_blank" rel="noopener">kick.com/r7_zenty</a></footer>
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="VOD oynatıcı">
+ <div class="modal-inner"><div class="modal-top"><h3 id="modalTitle">VOD</h3><button id="closeModal" class="secondary">Kapat ✕</button></div><div class="vod-player" id="vodPlayer"></div><p id="modalMeta" class="note"></p><p class="note">Oynatma Kick tarafından engellenirse, bu VOD için herkese açık doğrudan gömülü oynatıcı sunulmuyor olabilir.</p></div>
+</div>
+<script>
+const CHANNEL = "r7_zenty";
+let allVods = [];
+const fmt = n => Number.isFinite(Number(n)) ? new Intl.NumberFormat("tr-TR").format(Number(n)) : "—";
+const duration = sec => {
+  sec = Math.max(0, Number(sec)||0);
+  const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60);
+  return h ? `${h} sa ${m} dk` : `${m} dk`;
+};
+function safeText(v, fallback="Bilinmeyen yayın"){return typeof v==="string" && v.trim()?v:fallback;}
+function dateValue(v){const d=new Date(v||0);return isNaN(d)?0:d.getTime();}
+function renderStats(vods){
+  document.getElementById("vodCount").textContent=fmt(vods.length);
+  const withViews=vods.filter(v=>Number.isFinite(Number(v.views)));
+  const views=withViews.reduce((s,v)=>s+Number(v.views||0),0);
+  document.getElementById("viewsTotal").textContent=withViews.length?fmt(views):"Veri yok";
+  const withDuration=vods.filter(v=>Number.isFinite(Number(v.duration)));
+  document.getElementById("durationTotal").textContent=withDuration.length?duration(withDuration.reduce((s,v)=>s+Number(v.duration||0),0)):"Veri yok";
+  document.getElementById("viewsAverage").textContent=withViews.length?fmt(Math.round(views/withViews.length)):"Veri yok";
+}
+function renderVods(){
+  const query=document.getElementById("search").value.toLocaleLowerCase("tr-TR").trim();
+  const sort=document.getElementById("sort").value;
+  let list=allVods.filter(v=>safeText(v.title,"").toLocaleLowerCase("tr-TR").includes(query));
+  list.sort((a,b)=>sort==="views"?(Number(b.views||0)-Number(a.views||0)):sort==="old"?(dateValue(a.created_at)-dateValue(b.created_at)):(dateValue(b.created_at)-dateValue(a.created_at)));
+  const root=document.getElementById("vods");root.replaceChildren();
+  if(!list.length){root.innerHTML='<div class="empty">VOD bulunamadı. Veriler henüz alınamamış olabilir veya kanalın VOD listesi boş olabilir.</div>';return;}
+  for(const v of list){
+    const card=document.createElement("article");card.className="vod";
+    const thumb=document.createElement("div");thumb.className="thumb";
+    if(v.thumbnail){const img=document.createElement("img");img.src=v.thumbnail;img.alt="";img.loading="lazy";img.onerror=()=>{img.remove();thumb.textContent="VOD";};thumb.append(img);}else thumb.textContent="VOD";
+    const body=document.createElement("div");body.className="vod-body";
+    const title=document.createElement("div");title.className="vod-title";title.textContent=safeText(v.title);
+    const d=document.createElement("div");d.className="meta";d.textContent=`${v.created_at?new Date(v.created_at).toLocaleDateString("tr-TR"):"Tarih yok"} · Süre: ${v.duration!=null?duration(v.duration):"—"} · Görüntülenme: ${v.views!=null?fmt(v.views):"—"}`;
+    const actions=document.createElement("div");actions.className="vod-actions";
+    const play=document.createElement("button");play.textContent="Sitede izle";play.addEventListener("click",()=>openVod(v));
+    const details=document.createElement("button");details.textContent="Detay";details.className="secondary";details.addEventListener("click",()=>{alert(`${safeText(v.title)}\nTarih: ${v.created_at||"—"}\nSüre: ${v.duration!=null?duration(v.duration):"Veri yok"}\nGörüntülenme: ${v.views!=null?fmt(v.views):"Veri yok"}\nKategori: ${v.category||"Veri yok"}\n\nKaynak yalnızca bu alanları sağlıyorsa gösterilir.`);});
+    actions.append(play,details);body.append(title,d,actions);card.append(thumb,body);root.append(card);
+  }
+}
+function openVod(v){
+  document.getElementById("modalTitle").textContent=safeText(v.title,"VOD");
+  document.getElementById("modalMeta").textContent=`${v.created_at?new Date(v.created_at).toLocaleDateString("tr-TR"):"Tarih yok"} · ${v.views!=null?fmt(v.views)+" görüntülenme":"Görüntülenme verisi yok"}`;
+  const holder=document.getElementById("vodPlayer");holder.replaceChildren();
+  if(v.embed_url){
+    const frame=document.createElement("iframe");frame.src=v.embed_url;frame.title=safeText(v.title);frame.allow="autoplay; fullscreen; picture-in-picture";frame.allowFullscreen=true;frame.loading="lazy";holder.append(frame);
+  }else{
+    const msg=document.createElement("div");msg.style.cssText="height:100%;min-height:220px;display:grid;place-items:center;text-align:center;padding:24px;color:#fff";
+    msg.textContent="Bu VOD için doğrulanmış gömülü oynatıcı adresi veri kaynağında yok. Kick bu VOD’u dış sitede oynatmaya izin vermiyorsa, burada doğrudan oynatılamaz.";
+    holder.append(msg);
+  }
+  document.getElementById("modal").classList.add("open");
+}
+function closeVod(){document.getElementById("modal").classList.remove("open");document.getElementById("vodPlayer").replaceChildren();}
+async function loadData(){
+  const btn=document.getElementById("refresh");btn.disabled=true;
+  try{
+    const res=await fetch("./vods.json?ts="+Date.now(),{cache:"no-store"});
+    if(!res.ok)throw new Error("vods.json yüklenemedi");
+    const data=await res.json();allVods=Array.isArray(data.vods)?data.vods:[];
+    renderStats(allVods);renderVods();
+    document.getElementById("updated").textContent=data.updated_at?"Son veri güncellemesi: "+new Date(data.updated_at).toLocaleString("tr-TR"):"";
+    document.getElementById("liveText").textContent="Kick oynatıcısı hazır";
+  }catch(e){
+    document.getElementById("vods").innerHTML='<div class="empty">VOD verisi yüklenemedi. vods.json dosyasının depoda bulunduğunu kontrol et.</div>';
+    document.getElementById("liveText").textContent="Yayın durumu oynatıcıda görünür";
+  }finally{btn.disabled=false;}
+}
+document.getElementById("search").addEventListener("input",renderVods);
+document.getElementById("sort").addEventListener("change",renderVods);
+document.getElementById("refresh").addEventListener("click",loadData);
+document.getElementById("closeModal").addEventListener("click",closeVod);
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeVod();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeVod();});
+loadData();
+</script>
+</body></html>
