@@ -44,7 +44,7 @@ def normalize(item):
     # Keep the known Kick VOD page URL as metadata only. Kick does not document
     # a stable public VOD iframe URL; do not invent one.
     vod_url = f"https://kick.com/{CHANNEL}/videos/{vid}" if vid else None
-    return {
+    {
         "id": str(vid) if vid is not None else None,
         "title": str(title),
         "created_at": created,
