@@ -82,10 +82,12 @@ const CHANNEL = "r7-zenty";
 let allVods = [];
 const fmt = n => Number.isFinite(Number(n)) ? new Intl.NumberFormat("tr-TR").format(Number(n)) : "—";
 const duration = sec => {
-  sec = Math.max(0, Number(sec)||0);
-  const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60);
+  sec = Math.max(0, Number(sec) || 0);
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
   return h ? `${h} sa ${m} dk` : `${m} dk`;
 };
+  
 function safeText(v, fallback="Bilinmeyen yayın"){return typeof v==="string" && v.trim()?v:fallback;}
 function dateValue(v){const d=new Date(v||0);return isNaN(d)?0:d.getTime();}
 function renderStats(vods){
