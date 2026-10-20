@@ -1,0 +1,38 @@
+name: Update Kick VOD metadata
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "update_kick.py"
+      - ".github/workflows/update-kick.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update-vods:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Update VOD metadata
+        run: python update_kick.py
+      - name: Commit updated data
+        run: |
+          if git diff --quiet -- vods.json; then
+            echo "No VOD metadata changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vods.json
+          git commit -m "Update Kick VOD metadata"
+          git push
